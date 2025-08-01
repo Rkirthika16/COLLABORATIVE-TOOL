@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Collaborative Editor</title>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+  <h2>Collaborative Text Editor</h2>
+  <textarea id="editor" rows="20" cols="80"></textarea>
+
+  <script>
+    const socket = io();
+
+    const editor = document.getElementById('editor');
+
+    editor.addEventListener('input', () => {
+      const content = editor.value;
+      socket.emit('text_change', { text: content });
+    });
+
+    socket.on('update_text', (data) => {
+      editor.value = data.text;
+    });
+  </script>
+</body>
+</html>
